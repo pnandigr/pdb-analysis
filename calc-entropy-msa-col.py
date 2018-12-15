@@ -123,11 +123,7 @@ def mutual_entropy(list_input1, list_input2):
 def mutual_entropy_list_msa(alignment):
     """Calculate mutual entropy """
 
-    mutual_entropy_list = []
-
-    
-
-    
+    mutual_entropy_list = []    
 
 def plot(index, sel, verbose):
     """plot via matplotlib to visualize"""
@@ -143,7 +139,7 @@ def plot(index, sel, verbose):
 
 
 def main():
-    """Compute Shannon Entropy from a provided MSA."""
+    """Compute Shannon Entropy from input MSA."""
 
     # Parse arguments
     args = parseArgs()
@@ -159,9 +155,6 @@ def main():
     alignment, seq_lengths, index = parseMSA(msa, alnformat, verbose)
     #sel = shannon_entropy_list_msa(alignment), shannon_entropy(alignment)
     sel = shannon_entropy_list_msa(alignment)
-
-    #if runningmean > 0:
-    #    sel = running_mean(sel, runningmean)
 
     if makeplot:
         plot(index, sel, verbose)
