@@ -14,7 +14,6 @@ import os
 from tqdm import tqdm
 from itertools import product
 
-
 def getEntropy(x):
     """Function to compute the informational entropy"""
     return - x * np.log(x)
