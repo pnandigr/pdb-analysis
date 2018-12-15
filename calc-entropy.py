@@ -33,8 +33,6 @@ class Prot_Seq_Entropy:
     ME_headers = AA_resid
     MI_headers = ["".join(map(str, prod)) for prod in product(AA_resid, repeat=2)]
 
-
-
     def __init__(self, seq_list, A_len):
         """Initialize with a list of sequences, and the length of a protein sequence."""
         self.seq_list = seq_list
