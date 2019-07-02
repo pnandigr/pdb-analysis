@@ -4,8 +4,7 @@ import numpy as np
 import seaborn as sns
 
 # User coded modules for protein structures
-# from protein_data_structure import parseArgs
-# from protein_data_structure import getEntropy
+# then import the user configuration settings
 from protein_data_structure import Prot_Seq_Entropy
 from myconfig import *
 
