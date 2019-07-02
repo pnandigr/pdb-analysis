@@ -9,18 +9,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import math
-import random
 import os
 import sys
 import warnings
 import traceback
-import argparse
-from tqdm import tqdm
 from itertools import product
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-from scipy.interpolate import interp2d
 
 
 def parseArgs():
@@ -64,7 +60,6 @@ def parseArgs():
 def getEntropy(x):
     """Function to compute the informational entropy"""
     return -x * np.log(x)
-    #return  x * (math.log(x,2))
 
 
 class Prot_Seq_Entropy:
@@ -135,8 +130,6 @@ class Prot_Seq_Entropy:
         except Exception as error:
             print('Caught this error: ' + repr(error))
             
-        # self.df_MIP.loc[(resnum1, resnum2)] = (self.df_MIC.loc[(resnum1, resnum2), :] 
-        #                                        * (1 / len(self.seq_list)))
         self.df_MIP.loc[(resnum1, resnum2)] = self.df_MIC.loc[(resnum1, resnum2)].multiply(1/len(self.seq_list))
         return self.df_MIP.loc[(resnum1, resnum2)].apply(getEntropy)
  
@@ -159,7 +152,6 @@ class Prot_Seq_Entropy:
             print('Caught this error: ' + repr(error))
             pass
         return [resA, resB, self.MI_A, self.MI_B, self.MI_AB, self.MI_tot]
-        #return [resA, resB, self.MI_tot]
         
     
     
@@ -223,13 +215,6 @@ lB = list(range(169,277)) #length of DIP: 109 AA (including gaps)
 out_lst = np.load("data-cognates-positive-MI.npy")
 
 sq_mat_joint1 = myProtSeq.JEC_matrix(65,208)
-#sq_mat_joint2 = myProtSeq.JEC_matrix(65,207)
-#sq_mat_joint3 = myProtSeq.JEC_matrix(156,211)
-#sq_mat_joint4 = myProtSeq.JEC_matrix(153,207)
-#sq_mat_joint5 = myProtSeq.JEC_matrix(65,211)
-#sq_mat_joint6 = myProtSeq.JEC_matrix(65,206)
-
-#sq_mat_joint = myProtSeq.JEC_matrix(65,208)
 
 #sq_mat_A = myProtSeq.compute_p_resnum(71)
 #print(sq_mat_joint)
