@@ -2,6 +2,7 @@ import pandas as pd
 import argparse
 import traceback
 import numpy as np
+from itertools import product
 
 # This file contains:
 # the class for Prot_Seq_Entropy

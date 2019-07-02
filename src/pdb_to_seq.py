@@ -46,7 +46,7 @@ def readInputSeq(inF):
             
             # print ("idx 1= "+str(idx1)+ " is "+str(seqIdx[idx1])+" res="+res1)
             # print ("idx 2= "+str(idx2)+ " is "+str(seqIdx[idx2])+" res="+res2)
-            fout.write("%s \t %s \t %s \t %s \t %s \t %s \n" % 
+            fout.write("%s \t %s \t %s \t %s \t %s \t %s \n" %
                        (idx1+1, idx2+1, seqIdx[idx1], seqIdx[idx2], res1, res2))
             
 #            queryIdx1.append(int(token[1]))
@@ -89,7 +89,7 @@ def readMatrix(infile1):
         fout.write("%s \t %s \t %s \n"%(r1,r2,newDist))
         # fout.write("%s \t %s \t %s \t %s \t %s \n"%(r1,r2,newDist,resA,resB))
         
-    in_f1.close() 
+    in_f1.close()
     fout.close()    
     """    
     ###may be create a new funciton to do the task below
@@ -104,9 +104,9 @@ def readMatrix(infile1):
     
     res1_res2_map[str(seqIdx[idx1])+"_"+str(seqIdx[idx2])] = newDist
     """
-      
-                  
-if __name__ =="__main__": 
+
+
+if __name__ =="__main__":
     
     readPDBTOSeqList("map_pdb_to_seq.txt")
     readInputSeq("contact-all_0.dat")

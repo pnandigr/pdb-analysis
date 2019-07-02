@@ -109,7 +109,7 @@ def main():
     # seq_File_In = args.inputSeq
 
     # all DprDIP cognate pair sequences
-    seq_record_c = list(SeqIO.parse("cognate.aln", "clustal")) 
+    seq_record_c = list(SeqIO.parse("cognate.aln", "clustal"))
     
     msa_lst_c = []
     msa_seq_lst_c = []
@@ -119,7 +119,7 @@ def main():
         
     for i, j in enumerate(msa_lst_c):
         msa_seq_lst_c.append(j)
-                
+
     # with open("seq-out-35.txt", 'w') as fs:
     #     for seq,index in enumerate(msa_seq_lst_c[35]):
     #         fs.write('{0} \t {1} \n'.format(index,seq))
@@ -156,7 +156,7 @@ def main():
             # print(rescode, "\t", i, "\t", seq_from_msa[map[i]], "\t", map[i])
             # print(rescode, "\t", i, "\t", seq_from_msa[map_pdb_to_seq[i]], "\t", map_pdb_to_seq[i])
             fl.write("%s \t %d \t %s \t %d \n"%(rescode, i, seq_from_msa[map_pdb_to_seq[i]], map_pdb_to_seq[i]))
-            
+
     # ---------------------------write output to screen
     # for i,rescode in enumerate(seq_from_msa):
     #     if i in map_inv:

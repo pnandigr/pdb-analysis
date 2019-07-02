@@ -4,9 +4,10 @@ import numpy as np
 import seaborn as sns
 
 # User coded modules for protein structures
-# from .protein_data_structure import parseArgs
-# from .protein_data_structure import getEntropy
-from .protein_data_structure import Prot_Seq_Entropy
+# from protein_data_structure import parseArgs
+# from protein_data_structure import getEntropy
+from protein_data_structure import Prot_Seq_Entropy
+from myconfig import *
 
 # -----------------------sequence alignment for cognate complexes
 seq_record_c = list(SeqIO.parse("cognate-cured.aln", "clustal"))  # all DprDIP cognate pair sequences
@@ -26,18 +27,18 @@ for i, j in enumerate(msa_lst_c):
 # --------------------------------------------------
 # arguments are protein sequences and length of sequences (all alignment sequence must have same length)
 myProtSeq = Prot_Seq_Entropy(msa_seq_lst_c,
-                             277)  
+                             lB_end)
 
 
-lA = list(range(0, 169))  # length of Dpr: 168 AA (including gaps)
-lB = list(range(169, 277))  # length of DIP: 109 AA (including gaps)
+lA = list(range(lA_0, lA_end))  # length of Dpr: 168 AA (including gaps)
+lB = list(range(lB_0, lB_end))  # length of DIP: 109 AA (including gaps)
 
 # out_lst = myProtSeq.mutual_information_list(lA, lB)  #output DataFrame
 # np.save("data-cognates-positive-MI.npy",out_lst) #save output data for easy access later
 
 out_lst = np.load("data-cognates-positive-MI.npy")
 
-sq_mat_joint1 = myProtSeq.JEC_matrix(65, 208)
+sq_mat_joint1 = myProtSeq.JEC_matrix(targetA1, targetB1)
 
 # sq_mat_A = myProtSeq.compute_p_resnum(71)
 # print(sq_mat_joint)
@@ -59,7 +60,8 @@ sq_mat_joint1 = myProtSeq.JEC_matrix(65, 208)
 # cmap1 = colors.ListedColormap(['red', 'blue','green', 'black', 'orange', 'yellow', 'purple'])
 # boundaries1 = [100, 80, 60, 45, 35, 25, 10, 0.0][::-1]
 # norm1 = colors.BoundaryNorm(boundaries1, cmap1.N, clip=True)
-sns.heatmap(np.add(myProtSeq.JEC_matrix(65, 208), myProtSeq.JEC_matrix(65, 207)), cmap='coolwarm', annot=True)
+sns.heatmap(np.add(myProtSeq.JEC_matrix(targetA1, targetB1),
+                   myProtSeq.JEC_matrix(targetA1, targetB2)), cmap='coolwarm', annot=True)
 plt.gca().invert_yaxis()  # put y-axis labels in reverse order
 # plt.savefig("plotmat-MI-h10.pdf", bbox_inches='tight')
 plt.show()
