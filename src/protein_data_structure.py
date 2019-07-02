@@ -89,10 +89,11 @@ class Prot_Seq_Entropy:
         """Computes the probability of an individual residue occuring in the sequence family."""
         self.df_MEC.loc[resnum, :] = 0.0
         for myseq in self.seq_list:
+            # count them all up first
             self.df_MEC.loc[resnum, myseq[resnum]] = self.df_MEC.loc[resnum, myseq[resnum]] + 1.0
+        # divide to get the probability
         self.df_MEP.loc[resnum] = (self.df_MEC.loc[resnum].multiply(1 / len(self.seq_list)))
-        # self.df_MEP.loc[resnum] = (self.df_MEC.loc[resnum].multiply(1 / len(self.msa_lst_c)))
-        return self.df_MEP.loc[resnum]
+        # return self.df_MEP.loc[resnum]
 
     def add_seq(self, new_seq_list):
         """Add additional sequences to your family."""
@@ -119,7 +120,7 @@ class Prot_Seq_Entropy:
             print('Caught this error: ' + repr(error))
 
         # self.df_MIP.loc[(resnum1, resnum2)] = (self.df_MIC.loc[(resnum1, resnum2), :]
-        #                                        * (1 / len(self.seq_list)))
+        #                                         * (1 / len(self.seq_list)))
         self.df_MIP.loc[(resnum1, resnum2)] = self.df_MIC.loc[(resnum1, resnum2)].multiply(1 / len(self.seq_list))
         return self.df_MIP.loc[(resnum1, resnum2)].apply(getEntropy)
 
@@ -131,7 +132,7 @@ class Prot_Seq_Entropy:
             self.MI_A = self.entropy_of_resnum(resA).fillna(0.0).sum()
             self.MI_B = self.entropy_of_resnum(resB).fillna(0.0).sum()
             self.MI_AB = self.joint_entropy(resA, resB).fillna(0.0).sum()
-            self.MI_tot = - ((self.MI_A + self.MI_B) - self.MI_AB)
+            self.MI_tot = (self.MI_B + self.MI_A) - self.MI_AB
             if self.MI_tot > np.minimum(np.array(self.MI_A), np.array(self.MI_B)):
                 raise ValueError('mutual information is out of bounds for ' + str(resA) + ' ' + str(resB))
             if (self.MI_A < 0.0) or (self.MI_B < 0.0) or (self.MI_AB < 0.0):
@@ -145,10 +146,10 @@ class Prot_Seq_Entropy:
     def mutual_information_list(self, reslistA, reslistB):
         """Computes the mutual information entropy for a set of residues A, and set of residues B.
             Parameters are passed as two lists of residues. Returns a list object."""
-        self.df_MEC[:] = 0.0
-        self.df_MIC[:] = 0.0
-        self.df_MEP[:] = 0.0
-        self.df_MIP[:] = 0.0
+        self.df_MEC[:] = 0.0  # Marginal entropy count
+        self.df_MIC[:] = 0.0  # Mutual information count
+        self.df_MEP[:] = 0.0  # marginal entropy probability
+        self.df_MIP[:] = 0.0  # mutual information probability
         self.MI_list = []
         for res_1 in reslistA:
             for res_2 in reslistB:
@@ -156,7 +157,6 @@ class Prot_Seq_Entropy:
         return np.array(self.MI_list)
 
     def JEC_matrix_element(self, resA, resB):
-        # return self.df_MIC.loc[(resA, resB), self.df_MIC.loc[(resA, resB)]]
         return self.df_MIC.loc[(resA, resB), self.df_MIC.loc[(resA, resB)] != 0]
 
     def JEC_matrix(self, resnum1, resnum2):
