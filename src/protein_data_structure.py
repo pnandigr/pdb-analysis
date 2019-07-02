@@ -131,8 +131,8 @@ class Prot_Seq_Entropy:
             self.MI_A = self.entropy_of_resnum(resA).fillna(0.0).sum()
             self.MI_B = self.entropy_of_resnum(resB).fillna(0.0).sum()
             self.MI_AB = self.joint_entropy(resA, resB).fillna(0.0).sum()
-            # self.MI_tot = - ((self.MI_A + self.MI_B) - self.MI_AB)
-            self.MI_tot = ((self.MI_A + self.MI_B) - self.MI_AB)
+            self.MI_tot = - ((self.MI_A + self.MI_B) - self.MI_AB)
+            # self.MI_tot = ((self.MI_A + self.MI_B) - self.MI_AB)
             if self.MI_tot > np.minimum(np.array(self.MI_A), np.array(self.MI_B)):
                 raise ValueError('mutual information is out of bounds for ' + str(resA) + ' ' + str(resB))
             if (self.MI_A < 0.0) or (self.MI_B < 0.0) or (self.MI_AB < 0.0):
