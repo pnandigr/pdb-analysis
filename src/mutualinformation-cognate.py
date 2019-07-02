@@ -16,7 +16,7 @@ lA_end = 169
 lB_0 = 169
 lB_end = 277
 outfile = "../output/data-cognates-positive-MI.npy"
-outfile-sorted = "../output/data-cognates-sorted-positive-MI.npy"
+outfile_sorted = "../output/data-cognates-sorted-positive-MI.npy"
 figure1_file = "../output/S_AB.cognates.pdf"
 figure2_file = "../output/deltaS_AB.cognates.pdf"
 
