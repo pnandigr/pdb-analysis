@@ -8,6 +8,6 @@ outfile = "../output/data-cognates-positive-MI.npy"
 outfile_sorted = "../output/data-cognates-sorted-positive-MI.npy"
 figure1_file = "../output/S_AB.cognates.pdf"
 figure2_file = "../output/deltaS_AB.cognates.pdf"
-target_A1 = 65
+targetA1 = 65
 targetB1 = 208
 targetB2 = 207
