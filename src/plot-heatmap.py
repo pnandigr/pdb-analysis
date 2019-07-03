@@ -34,15 +34,21 @@ import os, sys
 #    'X': '23'
 #    }
 
-my_dict = dict(A='1',R='2',N='3',D='4',B='5',C='6',E='7',Q='8',Z='9',G='10',H='11',I='12',L='13',K='14',M='15',F='16',P='17',T='18',W='19',Y='20',V='21',S='22',X='23')
+my_dict = dict(A='1',  R='2',  N='3',  D='4',  B='5',  C='6',  E='7',  Q='8',  Z='9',
+               G='10', H='11', I='12', L='13', K='14', M='15', F='16', P='17', T='18',
+               W='19', Y='20', V='21', S='22', X='23')
 
-s = pd.read_table('top-10-MI-cognate-combined.txt', delim_whitespace=True, names=('Dpr','DIP'))
+s = pd.read_table('top-10-MI-cognate-combined.txt', delim_whitespace=True, names=('Dpr', 'DIP'))
 
+# unstack the pandas table into a list of all pairs
+# and return the counts of each pair value
 s_grp = (s.groupby(['Dpr', 'DIP']).size()
          .unstack(fill_value=0)
          .stack()
          .to_frame('size').reset_index())
 
+# turn it into a float, scale for plotting
+# currently normalized by the highest pair count in the protein
 x = s_grp[['size']].values.astype(float)
 min_max_scaler = preprocessing.MinMaxScaler()
 x_scaled = min_max_scaler.fit_transform(x)
