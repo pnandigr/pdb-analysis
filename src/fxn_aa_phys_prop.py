@@ -28,6 +28,7 @@ aa_name_dict = {'A': 'Alanine',
                 'Y': 'Tyrosine',
                 'V': 'Valine'}
 
+# pKa of side chain residue
 aa_pKx_dict = {'A': NaN,
                'R': 12.38,
                'N': NaN,
@@ -51,6 +52,9 @@ aa_pKx_dict = {'A': NaN,
                'Y': 10.07,
                'V': NaN}
 
+# hydrophobicity scaled from 100 to -100
+# taken from sigma-aldrich website,
+# 0 is glycine, 100 is most hydrophobic, -100 is most hydrophilic
 aa_ph7_hydrophob_dict = {'A': 41,
                          'R': -14,
                          'N': -28,
@@ -81,6 +85,8 @@ aa_phys_prop_df = pd.DataFrame([aa_name_dict, aa_pKx_dict, aa_ph7_hydrophob_dict
 AA_key = ['A', 'G', 'L', 'M', 'F', 'W', 'K', 'Q', 'E', 'S',
           'P', 'V', 'I', 'C', 'Y', 'H', 'R', 'N', 'D', 'T']
 # We can also instead look at some properties like charge or kidera factors
+# Kidera factors reference can be found in:
+# Kidera, A., Konishi, Y., Oka, M. et al. J Protein Chem (1985) 4: 23. https://doi.org/10.1007/BF01025492
 AA_num_key = np.arange(20)+1
 # electrostatic Charges
 charge_key = [0, 0, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0, -0.048, 0, 0.091, 1, 0, -1, 0]
