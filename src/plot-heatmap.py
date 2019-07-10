@@ -34,9 +34,9 @@ import os, sys
 #    'X': '23'
 #    }
 
-my_dict = dict(A='1',  R='2',  N='3',  D='4',  B='5',  C='6',  E='7',  Q='8',  Z='9',
-               G='10', H='11', I='12', L='13', K='14', M='15', F='16', P='17', T='18',
-               W='19', Y='20', V='21', S='22', X='23')
+my_dict = dict(A = '1',  R = '2',  N = '3',  D = '4',  B = '5',  C = '6',  E = '7',  Q = '8',  Z = '9',
+               G = '10', H = '11', I = '12', L = '13', K = '14', M = '15', F = '16', P = '17', T = '18',
+               W = '19', Y = '20', V = '21', S = '22', X = '23')
 
 s = pd.read_table('top-10-MI-cognate-combined.txt', delim_whitespace=True, names=('Dpr', 'DIP'))
 
