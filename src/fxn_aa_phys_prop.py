@@ -78,8 +78,32 @@ aa_ph7_hydrophob_dict = {'A': 41,
                          'Y': 63,
                          'V': 76}
 
-aa_phys_prop_df = pd.DataFrame([aa_name_dict, aa_pKx_dict, aa_ph7_hydrophob_dict],
-                               index=['name', 'pKx', 'hydrophobicity']).T
+aa_binary_props = {  'A': ['hydrophobic'],
+                     'R': ['hydrophilic', 'ionic', 'plus', 'donor', 'acceptor'],
+                     'N': ['hydrophilic', 'acceptor', 'donor'],
+                     'D': ['hydrophilic', 'ionic', 'minus'],
+                     'C': ['hydrophilic', 'donor'],
+                     'E': ['hydrophilic', 'donor', 'minus', 'ionic'],
+                     'Q': ['hydrophilic', 'donor', 'minus', 'ionic'],
+                     'G': ['donor'],
+                     'H': ['hydrophilic', 'donor', 'acceptor'],
+                     'O': ['hydrophilic', 'ionic', 'minus'],
+                     'I': ['hydrophobic'],
+                     'L': ['hydrophobic'],
+                     'K': ['hydrophobic', 'ionic', 'plus'],
+                     'M': ['hydrophobic', 'acceptor'],
+                     'F': ['hydrophobic'],
+                     'P': ['hydrophobic'],
+                     'U': ['hydrophilic', 'ionic', 'minus'],
+                     'S': ['hydrophilic', 'donor', 'acceptor'],
+                     'T': ['hydrophilic', 'donor', 'acceptor'],
+                     'W': ['hydrophobic', 'donor'],
+                     'Y': ['hydrophilic', 'donor', 'acceptor'],
+                     'V': ['hydrophobic']}
+
+
+aa_phys_prop_df = pd.DataFrame([aa_name_dict, aa_pKx_dict, aa_ph7_hydrophob_dict, aa_binary_props],
+                               index=['name', 'pKx', 'hydrophobicity', 'binaryProp']).T
 
 # Define some initial stuff:
 AA_key = ['A', 'G', 'L', 'M', 'F', 'W', 'K', 'Q', 'E', 'S',
