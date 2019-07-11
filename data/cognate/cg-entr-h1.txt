@@ -29,6 +29,8 @@ E 	 	 F
 E 	 	 F 
 N 	 	 S 
 N 	 	 F 
+V 	 	 F 
+V 	 	 F 
 F 	 	 F 
 F 	 	 F 
 L 	 	 E 
