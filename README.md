@@ -15,3 +15,7 @@ For visualization purposes, we form an union set of top 10 mutual information fo
 non-cognate complexes and visualize in VMD. 
 
 We are currently looking at ways to distinguish the pairwise interaction details of cognate and non-cognate set.
+
+# TODO: 1) Aquire larger data sets for DIP/DPR interactions
+#       2) Bootstrap the original data sets to resample for better statistics
+#       3) Implement expectation value based statistics to compare cognate / non-cognate interactions

@@ -130,21 +130,21 @@ aa_phys_prop_df = aa_phys_prop_df.join(kf_df, how='outer')
 
 
 def get_phys_prop_AA(aa_code, prop_code):
-    ''' Input the amino acid single letter code, and the prop code from the list below
+    """ Input the amino acid single letter code, and the prop code from the list below
         This will return a physical property for the amino acid of interest. \n
         Prop codes are: name, pKx, hydrophobicity,  charge,
         KF1, KF2, KF3, KF4, KF5, KF6, KF7, KF8, KF9,  KF10.\n
         The interpretation of the KF codes are as follows:\n
         1: Helix/bend preference. \n
         2: Side-chain size. \n
-        3: Extended structure preference\n
-        4: Hydrophobicity\n
-        5: Double-bend preference\n
-        6: Partial specific volume\n
-        7: Flat extended preference\n
-        8: Occurrence in alpha region\n
+        3: Extended structure preference. \n
+        4: Hydrophobicity. \n
+        5: Double-bend preference. \n
+        6: Partial specific volume. \n
+        7: Flat extended preference. \n
+        8: Occurrence in alpha region. \n
         9: pK-C\n
-        10: Surrounding hydrophobicity'''
+        10: Surrounding hydrophobicity. """
     df_row_index = aa_code
     column_index = prop_code
     return aa_phys_prop_df.loc[df_row_index, column_index]
