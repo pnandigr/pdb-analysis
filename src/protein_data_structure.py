@@ -4,6 +4,11 @@ import traceback
 import numpy as np
 from itertools import product
 
+'''This module contains the class for Prot_Seq_Entropy
+   The getEntropy function
+   And the parseArgs function.
+   '''
+
 # This file contains:
 # the class for Prot_Seq_Entropy
 # the getEntropy function

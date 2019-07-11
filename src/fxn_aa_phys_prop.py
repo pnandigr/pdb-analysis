@@ -120,8 +120,8 @@ factor9 = [0.21, -1.66, 0.45, -1.27, 1.71, -2.3, -0.48, -0.03, -0.35, -0.97,
 # Surrounding hydrophobicity
 factor10 = [-0.48, 0.46, 0.93, 0.27, -0.44, -0.6, 0.6, -2.33, -0.12, -0.23,
             -0.28, 0.65, -1.78, 1.1, 0.53, 1.63, 0.93, -1.73, 0.7, 0.19]
-props=np.vstack([charge_key, factor1, factor2, factor3, factor4,
-                 factor5, factor6, factor7, factor8, factor9, factor10])
+props = np.vstack([charge_key, factor1, factor2, factor3, factor4,
+                   factor5, factor6, factor7, factor8, factor9, factor10])
 labels = ['charge', 'KF1', 'KF2', 'KF3', 'KF4', 'KF5', 'KF6', 'KF7', 'KF8', 'KF9', 'KF10']
 
 kf_df = pd.DataFrame(props, columns=AA_key, index=labels).T
@@ -149,3 +149,4 @@ def get_phys_prop_AA(aa_code, prop_code):
     column_index = prop_code
     return aa_phys_prop_df.loc[df_row_index, column_index]
 
+# TODO: BLOSUM scores, block matrix for substitution and alignments similarity score
