@@ -54,7 +54,7 @@ aa_pKx_dict = {'A': NaN,
 
 # hydrophobicity scaled from 100 to -100
 # taken from sigma-aldrich website,
-# 0 is glycine, 100 is most hydrophobic, -100 is most hydrophilic
+# 0 is glycine, 100 is most hydrophobic, -100 is least hydrophilic
 aa_ph7_hydrophob_dict = {'A': 41,
                          'R': -14,
                          'N': -28,
