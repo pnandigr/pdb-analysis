@@ -1,12 +1,19 @@
 import pandas as pd
 import numpy as np
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.utils import resample
 from sklearn.preprocessing import MultiLabelBinarizer
 
 
 # This file contains a function to return the physical properties of an individual amino acid
 # And compare properties of the pairs of amino acids
+# contains a number of properties, including a set of binary properties, the Kidera factors
+# and the hydrophobicity
+#
+# General comments: Looked into BLOSUM scores but I don't think they are quite what we are looking for.
+#                   BLOSUM is block matrix for substitution and alignments similarity score
+
 NaN = np.nan
+# names of the single letter coded amino acids
 aa_name_dict = {'A': 'Alanine',
                 'R': 'Arginine',
                 'N': 'Asparagine',
@@ -80,6 +87,8 @@ aa_ph7_hydrophob_dict = {'A': 41,
                          'Y': 63,
                          'V': 76}
 
+# generated a number of binary properties for each amino acids
+# include aliphatic / aromatic / polar /ionic side chains (and charge if ionic)
 aa_binary_props = {'A': ['hydrophobic', 'aliphatic'],
                    'R': ['hydrophilic', 'ionic', 'plus', 'donor', 'acceptor'],
                    'N': ['hydrophilic', 'acceptor', 'donor', 'polar'],
@@ -103,11 +112,11 @@ aa_binary_props = {'A': ['hydrophobic', 'aliphatic'],
                    'Y': ['hydrophilic', 'donor', 'acceptor', 'aromatic'],
                    'V': ['hydrophobic', 'aliphatic']}
 
-
+# put all those into a dataframe
 aa_phys_prop_df = pd.DataFrame([aa_name_dict, aa_pKx_dict, aa_ph7_hydrophob_dict, aa_binary_props],
                                index=['name', 'pKx', 'hydrophobicity', 'binaryProp']).T
 
-# Define some initial stuff:
+# List of amino acids for the KF arrays below:
 AA_key = ['A', 'G', 'L', 'M', 'F', 'W', 'K', 'Q', 'E', 'S',
           'P', 'V', 'I', 'C', 'Y', 'H', 'R', 'N', 'D', 'T']
 # We can also instead look at some properties like charge or kidera factors
@@ -146,19 +155,22 @@ factor9 = [0.21, -1.66, 0.45, -1.27, 1.71, -2.3, -0.48, -0.03, -0.35, -0.97,
 # Surrounding hydrophobicity
 factor10 = [-0.48, 0.46, 0.93, 0.27, -0.44, -0.6, 0.6, -2.33, -0.12, -0.23,
             -0.28, 0.65, -1.78, 1.1, 0.53, 1.63, 0.93, -1.73, 0.7, 0.19]
+# make them into a DF
 props = np.vstack([charge_key, factor1, factor2, factor3, factor4,
                    factor5, factor6, factor7, factor8, factor9, factor10])
 labels = ['charge', 'KF1', 'KF2', 'KF3', 'KF4', 'KF5', 'KF6', 'KF7', 'KF8', 'KF9', 'KF10']
-
 kf_df = pd.DataFrame(props, columns=AA_key, index=labels).T
 
 aa_phys_prop_df = aa_phys_prop_df.join(kf_df, how='outer')
 
+# vectorize the binary label list into set of columns containing each of the binary classifiers
 mlb = MultiLabelBinarizer()
 X = mlb.fit_transform(aa_phys_prop_df['binaryProp'])
-aa_phys_prop_df = aa_phys_prop_df.join(pd.DataFrame(X, index=aa_phys_prop_df.index,
-                                                    columns=mlb.classes_)).drop(columns=['binaryProp'])
-print(aa_phys_prop_df)
+aa_phys_prop_df = aa_phys_prop_df.join(pd.DataFrame(X,
+                                                    index=aa_phys_prop_df.index,
+                                                    columns=mlb.classes_
+                                                    ).add_prefix('bp_')).drop(columns=['binaryProp'])
+
 
 def get_phys_prop_AA(aa_code, prop_code):
     """ Input the amino acid single letter code, and the prop code from the list below
@@ -181,6 +193,10 @@ def get_phys_prop_AA(aa_code, prop_code):
     return aa_phys_prop_df.loc[df_row_index, column_index]
 
 
-# TODO: BLOSUM scores, block matrix for substitution and alignments similarity score
-#       One hot encode the binary properties
-#       add function for bootstrapping
+def bootstrapper(array, samp_size=1000):
+    """This function is a wrapper to bootstrap
+       (generate extra samples with replacement from the original)
+       the initial data. arguments are the iterable, and the number of samples to return.
+       samp_size is 1000 by default (returning a resampled iterable with 1000 items."""
+    return resample(array, replace=True, n_samples=samp_size, random_state=0)
+
