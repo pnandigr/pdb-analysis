@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.preprocessing import MultiLabelBinarizer
 
 
 # This file contains a function to return the physical properties of an individual amino acid
@@ -78,28 +80,28 @@ aa_ph7_hydrophob_dict = {'A': 41,
                          'Y': 63,
                          'V': 76}
 
-aa_binary_props = {  'A': ['hydrophobic'],
-                     'R': ['hydrophilic', 'ionic', 'plus', 'donor', 'acceptor'],
-                     'N': ['hydrophilic', 'acceptor', 'donor'],
-                     'D': ['hydrophilic', 'ionic', 'minus'],
-                     'C': ['hydrophilic', 'donor'],
-                     'E': ['hydrophilic', 'donor', 'minus', 'ionic'],
-                     'Q': ['hydrophilic', 'donor', 'minus', 'ionic'],
-                     'G': ['donor'],
-                     'H': ['hydrophilic', 'donor', 'acceptor'],
-                     'O': ['hydrophilic', 'ionic', 'minus'],
-                     'I': ['hydrophobic'],
-                     'L': ['hydrophobic'],
-                     'K': ['hydrophobic', 'ionic', 'plus'],
-                     'M': ['hydrophobic', 'acceptor'],
-                     'F': ['hydrophobic'],
-                     'P': ['hydrophobic'],
-                     'U': ['hydrophilic', 'ionic', 'minus'],
-                     'S': ['hydrophilic', 'donor', 'acceptor'],
-                     'T': ['hydrophilic', 'donor', 'acceptor'],
-                     'W': ['hydrophobic', 'donor'],
-                     'Y': ['hydrophilic', 'donor', 'acceptor'],
-                     'V': ['hydrophobic']}
+aa_binary_props = {'A': ['hydrophobic', 'aliphatic'],
+                   'R': ['hydrophilic', 'ionic', 'plus', 'donor', 'acceptor'],
+                   'N': ['hydrophilic', 'acceptor', 'donor', 'polar'],
+                   'D': ['hydrophilic', 'ionic', 'minus'],
+                   'C': ['hydrophilic', 'donor', 'polar'],
+                   'E': ['hydrophilic', 'minus', 'ionic'],
+                   'Q': ['hydrophilic', 'acceptor', 'donor', 'polar'],
+                   'G': ['donor'],
+                   'H': ['hydrophilic', 'ionic', 'plus', 'donor', 'acceptor'],
+                   'O': ['hydrophilic', 'ionic', 'plus'],
+                   'I': ['hydrophobic', 'aliphatic'],
+                   'L': ['hydrophobic', 'aliphatic'],
+                   'K': ['hydrophobic', 'ionic', 'plus'],
+                   'M': ['hydrophobic', 'aliphatic'],
+                   'F': ['hydrophobic', 'aromatic'],
+                   'P': ['hydrophobic', 'aliphatic'],
+                   'U': ['hydrophilic', 'ionic', 'minus'],
+                   'S': ['hydrophilic', 'donor', 'acceptor', 'polar'],
+                   'T': ['hydrophilic', 'donor', 'acceptor', 'polar'],
+                   'W': ['hydrophobic', 'donor', 'aromatic'],
+                   'Y': ['hydrophilic', 'donor', 'acceptor', 'aromatic'],
+                   'V': ['hydrophobic', 'aliphatic']}
 
 
 aa_phys_prop_df = pd.DataFrame([aa_name_dict, aa_pKx_dict, aa_ph7_hydrophob_dict, aa_binary_props],
@@ -152,6 +154,11 @@ kf_df = pd.DataFrame(props, columns=AA_key, index=labels).T
 
 aa_phys_prop_df = aa_phys_prop_df.join(kf_df, how='outer')
 
+mlb = MultiLabelBinarizer()
+X = mlb.fit_transform(aa_phys_prop_df['binaryProp'])
+aa_phys_prop_df = aa_phys_prop_df.join(pd.DataFrame(X, index=aa_phys_prop_df.index,
+                                                    columns=mlb.classes_)).drop(columns=['binaryProp'])
+print(aa_phys_prop_df)
 
 def get_phys_prop_AA(aa_code, prop_code):
     """ Input the amino acid single letter code, and the prop code from the list below
@@ -173,4 +180,7 @@ def get_phys_prop_AA(aa_code, prop_code):
     column_index = prop_code
     return aa_phys_prop_df.loc[df_row_index, column_index]
 
+
 # TODO: BLOSUM scores, block matrix for substitution and alignments similarity score
+#       One hot encode the binary properties
+#       add function for bootstrapping
